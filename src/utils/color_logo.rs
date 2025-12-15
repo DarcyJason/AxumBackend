@@ -3,7 +3,7 @@ use owo_colors::OwoColorize;
 
 use crate::app::{errors::external_error::ExternalError, result::AppResult};
 
-pub fn gradient_text(text: &str) -> AppResult<()> {
+pub fn color_logo(text: &str) -> AppResult<()> {
     let grad = GradientBuilder::new()
         .colors(&[
             Color::from_rgba8(255, 0, 128, 255),
