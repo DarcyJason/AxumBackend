@@ -1,0 +1,3 @@
+DEFINE TABLE OVERWRITE refresh_token SCHEMALESS;
+
+# DEFINE FIELD OVERWRITE field ON refresh_token;

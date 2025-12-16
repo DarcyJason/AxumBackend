@@ -1,12 +1,8 @@
-use std::net::{SocketAddr};
+use std::net::SocketAddr;
 
 use crate::{
-    app::{
-        errors::external_error::ExternalError, result::AppResult,
-    },
-    infrastructure::{
-        bootstrap::{shutdown::run_shutdown_tasks, startup::run_startup_tasks},
-    },
+    app::{errors::external_error::ExternalError, result::AppResult},
+    infrastructure::bootstrap::{shutdown::run_shutdown_tasks, startup::run_startup_tasks},
 };
 
 pub mod errors;
@@ -17,7 +13,7 @@ pub mod routers;
 pub mod state;
 
 pub async fn run() -> AppResult<()> {
-    let (_logger_guard, app_routers, listener) = run_startup_tasks().await.unwrap();
+    let (_logger_guard, app_routers, listener) = run_startup_tasks().await?;
     axum::serve(
         listener,
         app_routers.into_make_service_with_connect_info::<SocketAddr>(),

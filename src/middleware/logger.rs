@@ -7,8 +7,13 @@ pub fn logger() -> WorkerGuard {
     let file_layer = fmt::layer()
         .with_file(true)
         .with_line_number(false)
-        .with_writer(non_blocking);
-    let console_layer = fmt::layer().with_file(true).with_line_number(false);
+        .with_writer(non_blocking)
+        .with_ansi(false)
+        .compact();
+    let console_layer = fmt::layer()
+        .with_file(true)
+        .with_line_number(false)
+        .pretty();
     let filter_layer = EnvFilter::try_from_default_env()
         .or_else(|_| EnvFilter::try_new("info"))
         .unwrap();

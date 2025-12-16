@@ -7,6 +7,7 @@ use crate::{
         backend_server_config::BackendServerConfig, frontend_server_config::FrontendServerConfig,
         jwt_config::JwtConfig, mail_server_config::MailServerConfig,
         redis_server_config::RedisServerConfig, surreal_server_config::SurrealServerConfig,
+        system_owner_config::SystemOwnerConfig,
     },
 };
 
@@ -16,9 +17,12 @@ pub mod jwt_config;
 pub mod mail_server_config;
 pub mod redis_server_config;
 pub mod surreal_server_config;
+pub mod system_owner_config;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AppConfig {
+    #[serde(flatten)]
+    pub system_owner_config: SystemOwnerConfig,
     #[serde(flatten)]
     pub backend_server_config: BackendServerConfig,
     #[serde(flatten)]

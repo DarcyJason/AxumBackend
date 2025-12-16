@@ -7,6 +7,7 @@ use axum::{Json, http::StatusCode, response::IntoResponse};
 
 use crate::app::response::AppResponse;
 
+pub mod bootstrap_error;
 pub mod external_error;
 pub mod other_error;
 pub mod user_error;
