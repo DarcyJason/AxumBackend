@@ -5,6 +5,8 @@ use crate::{
     infrastructure::config::redis_server_config::RedisServerConfig,
 };
 
+pub mod health_repo;
+
 #[derive(Debug, Clone)]
 pub struct RedisClient {
     pub conn: MultiplexedConnection,

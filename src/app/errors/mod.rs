@@ -49,7 +49,7 @@ impl IntoResponse for AppError {
     fn into_response(self) -> axum::response::Response {
         let status_code = self.kind.status_code();
         let message = self.kind.message();
-        let body = AppResponse::<()>::err(status_code.as_u16(), &message, status_code.as_str());
+        let body = AppResponse::<()>::err(status_code.as_u16(), &message);
         (status_code, Json(body)).into_response()
     }
 }

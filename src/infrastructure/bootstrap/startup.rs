@@ -6,7 +6,7 @@ use std::{
 use crate::{
     app::{
         errors::external_error::ExternalError, logo::APPLOGO, result::AppResult,
-        routers::v1::app_routers, state::AppState,
+        routers::app_routers, state::AppState,
     },
     domain::user::{Role, User},
     infrastructure::{

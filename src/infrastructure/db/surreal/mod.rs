@@ -9,6 +9,8 @@ use crate::{
     infrastructure::config::surreal_server_config::SurrealServerConfig,
 };
 
+pub mod health_repo;
+
 #[derive(Debug, Clone)]
 pub struct SurrealClient {
     pub client: Surreal<Client>,
