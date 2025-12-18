@@ -6,10 +6,11 @@ use surrealdb::sql::Thing;
 pub struct Device {
     pub id: Option<Thing>,
     pub user_id: String,
-    pub ip: String,
-    pub user_agent: String,
-    pub os: String,
-    pub device: String,
-    pub is_trusted: bool,
+    pub device_name: String,
+    pub device_type: String,
+    pub raw_user_agent: String,
+    pub first_login_at: DateTime<Utc>,
     pub last_login_at: DateTime<Utc>,
+    pub ip: String,
+    pub is_trusted: bool,
 }

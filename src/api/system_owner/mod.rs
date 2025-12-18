@@ -1,6 +1,6 @@
 pub mod routers;
 pub mod validation;
 
-pub async fn get_logs_handler() {
+pub async fn update_admin_status_handler() {
     todo!()
 }

@@ -1,11 +1,14 @@
+use crate::{
+    api::health::{check_db_ready_handler, check_health_handler},
+    app::state::AppState,
+};
+use axum::{Router, routing::get};
 use std::sync::Arc;
 
-use axum::{Router, routing::get};
-
-use crate::{api::health::health_check_handler, app::state::AppState};
-
 pub fn health_router(app_state: Arc<AppState>) -> Router {
-    Router::new()
-        .route("/health", get(health_check_handler))
-        .with_state(app_state)
+    let health_routers = Router::new()
+        .route("/", get(check_health_handler))
+        .route("/ready", get(check_db_ready_handler))
+        .with_state(app_state);
+    Router::new().nest("/health", health_routers)
 }
