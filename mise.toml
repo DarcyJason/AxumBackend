@@ -1,0 +1,30 @@
+[tools]
+rust = '1.92.0'
+hurl = '7.1.0'
+
+[tasks.backend]
+description = "Run the axum backend"
+run = "cargo run"
+
+[tasks.bench]
+description = "Benchmark"
+run = "cargo bench"
+
+[tasks.test]
+description = "Test the axum backend"
+run = "cargo test"
+
+[tasks.fmt]
+description = "Format the code"
+run = "cargo fmt"
+
+[tasks.check]
+description = "Check the format and errors"
+run = [
+    "cargo fmt -- --check",
+    "cargo clippy -- -D warnings"
+]
+
+[tasks.clean]
+description = "Clean the target of the axum backend"
+run = "cargo clean"

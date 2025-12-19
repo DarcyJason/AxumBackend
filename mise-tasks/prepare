@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+SURREALDB_MIGRATIONS="surrealdb-migrations"
+
+if ! command -v $SURREALDB_MIGRATIONS &> /dev/null; then
+    echo "$SURREALDB_MIGRATIONS doesn't exist. Automatically install it..."
+    cargo install surrealdb-migrations
+    if command -v $SURREALDB_MIGRATIONS &> /dev/null; then
+        echo "$SURREALDB_MIGRATIONS is installed successfully."
+    else
+        echo "$SURREALDB_MIGRATIONS is installed unsuccessfully. Please check your network or install it manually."
+        echo "$SURREALDB_MIGRATIONS is in https://github.com/Odonno/surrealdb-migrations"
+        exit 1
+    fi
+else
+    echo "$SURREALDB_MIGRATIONS already exists."
+fi
