@@ -6,8 +6,8 @@ use crate::{
     infrastructure::config::{
         backend_server_config::BackendServerConfig, frontend_server_config::FrontendServerConfig,
         jwt_config::JwtConfig, mail_server_config::MailServerConfig,
-        redis_server_config::RedisServerConfig, surreal_server_config::SurrealServerConfig,
-        system_owner_config::SystemOwnerConfig,
+        redis_server_config::RedisServerConfig, rustfs_server_config::RustFSServerConfig,
+        surreal_server_config::SurrealServerConfig, system_owner_config::SystemOwnerConfig,
     },
 };
 
@@ -16,6 +16,7 @@ pub mod frontend_server_config;
 pub mod jwt_config;
 pub mod mail_server_config;
 pub mod redis_server_config;
+pub mod rustfs_server_config;
 pub mod surreal_server_config;
 pub mod system_owner_config;
 
@@ -33,6 +34,8 @@ pub struct AppConfig {
     pub surreal_server_config: SurrealServerConfig,
     #[serde(flatten)]
     pub redis_server_config: RedisServerConfig,
+    #[serde(flatten)]
+    pub rustfs_server_config: RustFSServerConfig,
     #[serde(flatten)]
     pub jwt_config: JwtConfig,
 }
