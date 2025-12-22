@@ -14,7 +14,7 @@ pub enum ExternalError {
     #[error(transparent)]
     SurrealDB(#[from] surrealdb::Error),
     #[error(transparent)]
-    Figment(#[from] figment::Error),
+    Figment(#[from] figment2::Error),
     #[error(transparent)]
     JsonWebToken(#[from] jsonwebtoken::errors::Error),
     #[error(transparent)]

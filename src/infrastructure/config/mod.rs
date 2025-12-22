@@ -1,4 +1,4 @@
-use figment::{Figment, providers::Env};
+use figment2::{Figment, providers::Env};
 use serde::{Deserialize, Serialize};
 
 use crate::{

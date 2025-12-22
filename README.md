@@ -12,7 +12,7 @@ To run this project, you will need:
 
 ## Installation
 
-### 1. Clone the repository:
+### 1. Clone the repository
 
 ```shell
 git clone https://github.com/DarcyJason/AxumBackend

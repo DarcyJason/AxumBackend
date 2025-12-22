@@ -6,6 +6,10 @@ hurl = '7.1.0'
 description = "Run the axum backend"
 run = "cargo run"
 
+[tasks.build]
+description = "Build the axum backend"
+run = "cargo build"
+
 [tasks.bench]
 description = "Benchmark"
 run = "cargo bench"
@@ -24,6 +28,10 @@ run = [
     "cargo fmt -- --check",
     "cargo clippy -- -D warnings"
 ]
+
+[tasks.release]
+description = "Build the release version of the axum backend"
+run = "cargo build --release"
 
 [tasks.clean]
 description = "Clean the target of the axum backend"
