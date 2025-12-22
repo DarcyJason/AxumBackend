@@ -5,7 +5,7 @@ use crate::{
         config::AppConfig,
         db::{redis::RedisClient, surreal::SurrealClient},
     },
-    services::health_service::HealthService,
+    services::{auth_service::AuthService, health_service::HealthService},
 };
 
 pub mod admin_service;
@@ -16,6 +16,7 @@ pub mod user_service;
 
 pub struct Services {
     pub health: HealthService,
+    pub auth: AuthService,
 }
 
 impl Services {
@@ -26,6 +27,7 @@ impl Services {
     ) -> Self {
         let health =
             HealthService::new(config.clone(), surreal_client.clone(), redis_client.clone());
-        Services { health }
+        let auth = AuthService::new(config.clone(), surreal_client.clone(), redis_client.clone());
+        Services { health, auth }
     }
 }

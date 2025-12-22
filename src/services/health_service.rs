@@ -31,14 +31,14 @@ impl HealthService {
             redis_client,
         }
     }
-    pub async fn check_health(&self) -> AppResult<impl IntoResponse + use<>> {
+    pub async fn check_health_service(&self) -> AppResult<impl IntoResponse + use<>> {
         Ok(AppResponse::<()>::ok(
             StatusCode::OK.as_u16(),
             "Healthy",
             None,
         ))
     }
-    pub async fn check_db_ready(&self) -> AppResult<impl IntoResponse + use<>> {
+    pub async fn check_db_ready_service(&self) -> AppResult<impl IntoResponse + use<>> {
         let checks: (bool, bool) = tokio::join!(
             async { self.surreal_client.health_check().await.is_ok() },
             async { self.redis_client.health_check().await.is_ok() }

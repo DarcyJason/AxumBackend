@@ -17,11 +17,10 @@ pub struct AppState {
 
 impl AppState {
     pub fn new(
-        config: AppConfig,
+        config: Arc<AppConfig>,
         surreal_client: SurrealClient,
         redis_client: RedisClient,
     ) -> Self {
-        let config = Arc::new(config);
         let surreal_client = Arc::new(surreal_client);
         let redis_client = Arc::new(redis_client);
         let services = Services::new(config.clone(), surreal_client.clone(), redis_client.clone());

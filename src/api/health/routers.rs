@@ -5,7 +5,7 @@ use crate::{
 use axum::{Router, routing::get};
 use std::sync::Arc;
 
-pub fn health_router(app_state: Arc<AppState>) -> Router {
+pub fn health_routers(app_state: Arc<AppState>) -> Router {
     let health_routers = Router::new()
         .route("/", get(check_health_handler))
         .route("/ready", get(check_db_ready_handler))

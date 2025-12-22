@@ -25,10 +25,10 @@ pub async fn run_startup_tasks() -> AppResult<(WorkerGuard, Router, TcpListener)
     let logger_guard = logger();
     dotenvy::dotenv().ok();
     color_logo(APPLOGO)?;
-    let config = AppConfig::init()?;
+    let config = Arc::new(AppConfig::init()?);
     let port = config.backend_server_config.backend_port;
-    let surreal_client = SurrealClient::new(config.clone().surreal_server_config).await?;
-    let redis_client = RedisClient::new(config.clone().redis_server_config).await?;
+    let surreal_client = SurrealClient::new(config.surreal_server_config.clone()).await?;
+    let redis_client = RedisClient::new(config.redis_server_config.clone()).await?;
     let app_state = Arc::new(AppState::new(config.clone(), surreal_client, redis_client));
     check_if_exists_system_owner(app_state.clone()).await?;
     let app_routers = app_routers(app_state);
