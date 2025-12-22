@@ -4,7 +4,7 @@ use surrealdb::sql::Thing;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RefreshToken {
-    pub id: Option<Thing>,
+    pub id: Thing,
     pub user_id: Thing,
     pub token_hashed: String,
     pub device: Thing,

@@ -4,8 +4,8 @@ use surrealdb::sql::Thing;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Device {
-    pub id: Option<Thing>,
-    pub user_id: String,
+    pub id: Thing,
+    pub user_id: Thing,
     pub device_name: String,
     pub device_type: String,
     pub raw_user_agent: String,

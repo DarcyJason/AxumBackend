@@ -13,3 +13,4 @@ pub mod request;
 pub mod response;
 pub mod ssh;
 pub mod user;
+pub mod vault;

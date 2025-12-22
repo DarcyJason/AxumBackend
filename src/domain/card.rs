@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use surrealdb::sql::Thing;
 
 use chrono::{DateTime, Utc};
 
@@ -21,6 +22,8 @@ pub enum CardBrand {
 }
 
 pub struct Card {
+    pub id: Thing,
+    pub user_id: Thing,
     pub project_name: String,
     pub project_owner: Vec<ProjectOwner>,
     pub folder: Option<Vec<ProjectFolder>>,
@@ -33,5 +36,5 @@ pub struct Card {
     pub remarks: Option<String>,
     pub additional_fields: Option<Vec<AdditionalField>>,
     pub created_at: DateTime<Utc>,
-    pub update_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
 }

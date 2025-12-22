@@ -58,27 +58,20 @@ pub async fn check_if_exists_system_owner(app_state: Arc<AppState>) -> AppResult
         .clone();
     let password_hashed = hash_password(password)?;
     let sql = r#"
-            BEGIN TRANSACTION;
-
-            LET $existing = (
-                SELECT count() AS count FROM user WHERE role = $role
-            );
-
-            IF $existing[0].count != 0 {
-                RETURN NONE;
-            };
-
-            LET $created = CREATE user SET
-                name = $name,
-                email = $email,
-                password_hashed = $password_hashed,
-                role = $role,
-                is_verified = true,
-                is_banned = false;
-
-            COMMIT TRANSACTION;
-
-            RETURN $created;
+        BEGIN TRANSACTION;
+            LET $system_owner = SELECT * FROM user WHERE role = $role;
+            LET $result = IF array::len($system_owner) > 0 THEN
+                $system_owner
+            ELSE (CREATE user SET
+                    name = $name,
+                    email = $email,
+                    password_hashed = $password_hashed,
+                    role = $role,
+                    is_verified = true,
+                    is_banned = false);
+            END;
+        COMMIT TRANSACTION;
+        RETURN $result;
         "#;
     let mut res = app_state
         .surreal_client
