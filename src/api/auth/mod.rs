@@ -30,6 +30,6 @@ pub async fn forget_password_handler() {
     todo!()
 }
 
-pub async fn refresh_handler() {
+pub async fn refresh_token_handler() {
     todo!()
 }

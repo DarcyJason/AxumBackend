@@ -13,6 +13,7 @@ pub mod audit_service;
 pub mod auth_service;
 pub mod health_service;
 pub mod user_service;
+pub mod vault_services;
 
 pub struct Services {
     pub health: HealthService,
