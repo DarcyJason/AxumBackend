@@ -11,12 +11,13 @@ use crate::{
     domain::user::{Role, User},
     infrastructure::{
         config::AppConfig,
-        db::{redis::RedisClient, surreal::SurrealClient},
+        db::{redis::RedisClient, rustfs::RustFSClient, surreal::SurrealClient},
     },
     middleware::logger::logger,
     utils::{color_logo::color_logo, password::hash_password},
 };
 use axum::Router;
+use resend_rs::Resend;
 use tokio::net::TcpListener;
 use tracing::info;
 use tracing_appender::non_blocking::WorkerGuard;
@@ -29,7 +30,15 @@ pub async fn run_startup_tasks() -> AppResult<(WorkerGuard, Router, TcpListener)
     let port = config.backend_server_config.backend_port;
     let surreal_client = SurrealClient::new(config.surreal_server_config.clone()).await?;
     let redis_client = RedisClient::new(config.redis_server_config.clone()).await?;
-    let app_state = Arc::new(AppState::new(config.clone(), surreal_client, redis_client));
+    let rustfs_client = RustFSClient::new(config.rustfs_server_config.clone()).await;
+    let resend = Resend::new(&config.mail_server_config.resend_api_key.clone());
+    let app_state = Arc::new(AppState::new(
+        config.clone(),
+        surreal_client,
+        redis_client,
+        rustfs_client,
+        resend,
+    ));
     check_if_exists_system_owner(app_state.clone()).await?;
     let app_routers = app_routers(app_state);
     let address = SocketAddr::from((Ipv4Addr::UNSPECIFIED, port));
