@@ -1,3 +1,26 @@
-DEFINE TABLE OVERWRITE id SCHEMALESS;
+DEFINE TABLE OVERWRITE id SCHEMAFULL;
 
-# DEFINE FIELD OVERWRITE field ON id;
+DEFINE FIELD OVERWRITE user_id ON id TYPE record<user>;
+DEFINE FIELD OVERWRITE project_name ON id TYPE string;
+DEFINE FIELD OVERWRITE project_owner ON id TYPE record<user | group>;
+DEFINE FIELD OVERWRITE folder ON id TYPE option<array<record<folder>>>;
+DEFINE FIELD OVERWRITE status ON id TYPE string;
+DEFINE FIELD OVERWRITE first_name ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE middle_name ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE last_name ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE username ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE company ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE social_security_number ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE passport_number ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE license_number ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE email ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE address1 ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE address2 ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE address3 ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE city ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE province ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE post_code ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE country ON id TYPE option<string>;
+DEFINE FIELD OVERWRITE additional_fields ON id TYPE option<array<object>>;
+DEFINE FIELD OVERWRITE created_at ON id TYPE datetime;
+DEFINE FIELD OVERWRITE updated_at ON id TYPE datetime;

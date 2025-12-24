@@ -3,6 +3,8 @@ pub mod account;
 pub mod audit_log;
 pub mod card;
 pub mod device;
+pub mod folder;
+pub mod group;
 pub mod id;
 pub mod month;
 pub mod note;

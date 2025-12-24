@@ -1,11 +1,8 @@
-pub enum ProjectOwner {
-    User,
-    Group,
-}
+use surrealdb::sql::Thing;
 
-pub struct ProjectFolder {
-    pub name: String,
-    pub path: String,
+pub enum ProjectOwner {
+    User(Thing),
+    Group(Thing),
 }
 
 pub enum FieldType {

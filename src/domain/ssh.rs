@@ -1,14 +1,17 @@
 use chrono::{DateTime, Utc};
 use surrealdb::sql::Thing;
 
-use crate::domain::project::{AdditionalField, ProjectFolder, ProjectOwner};
+use crate::domain::{
+    folder::Folder,
+    project::{AdditionalField, ProjectOwner},
+};
 
 pub struct SSH {
     pub id: Thing,
     pub user_id: Thing,
     pub project_name: String,
     pub project_owner: Vec<ProjectOwner>,
-    pub folder: Option<Vec<ProjectFolder>>,
+    pub folder: Option<Vec<Folder>>,
     pub secret_key: Option<String>,
     pub public_key: Option<String>,
     pub fingerprint: Option<String>,
