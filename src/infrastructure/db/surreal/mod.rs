@@ -13,7 +13,7 @@ pub mod health_repo;
 
 #[derive(Debug, Clone)]
 pub struct SurrealClient {
-    pub client: Surreal<Client>,
+    pub surreal: Surreal<Client>,
 }
 
 impl SurrealClient {
@@ -31,6 +31,6 @@ impl SurrealClient {
             .use_db(surreal_server_config.surreal_database)
             .await
             .map_err(ExternalError::from)?;
-        Ok(SurrealClient { client: db })
+        Ok(SurrealClient { surreal: db })
     }
 }

@@ -11,7 +11,7 @@ pub trait SurrealHealthRepository {
 impl SurrealHealthRepository for SurrealClient {
     async fn health_check(&self) -> AppResult<bool> {
         let sql = "RETURN time::now()";
-        match self.client.query(sql).await {
+        match self.surreal.query(sql).await {
             Ok(mut result) => match result.take::<Option<String>>(0) {
                 Ok(Some(_)) => Ok(true),
                 _ => Ok(false),

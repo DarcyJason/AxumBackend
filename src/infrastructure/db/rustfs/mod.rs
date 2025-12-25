@@ -3,8 +3,10 @@ use aws_sdk_s3::{Client, config::Credentials};
 
 use crate::infrastructure::config::rustfs_server_config::RustFSServerConfig;
 
+pub mod health_repo;
+
 pub struct RustFSClient {
-    pub rustfs_client: Client,
+    pub rustfs: Client,
 }
 
 impl RustFSClient {
@@ -25,7 +27,7 @@ impl RustFSClient {
             .load()
             .await;
         RustFSClient {
-            rustfs_client: Client::new(&shard_config),
+            rustfs: Client::new(&shard_config),
         }
     }
 }

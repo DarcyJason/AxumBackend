@@ -3,7 +3,7 @@ use std::sync::Arc;
 use crate::{
     infrastructure::{
         config::AppConfig,
-        db::{redis::RedisClient, surreal::SurrealClient},
+        db::{redis::RedisClient, rustfs::RustFSClient, surreal::SurrealClient},
     },
     services::{auth_service::AuthService, health_service::HealthService},
 };
@@ -25,9 +25,14 @@ impl Services {
         config: Arc<AppConfig>,
         surreal_client: Arc<SurrealClient>,
         redis_client: Arc<RedisClient>,
+        rustfs_client: Arc<RustFSClient>,
     ) -> Self {
-        let health =
-            HealthService::new(config.clone(), surreal_client.clone(), redis_client.clone());
+        let health = HealthService::new(
+            config.clone(),
+            surreal_client.clone(),
+            redis_client.clone(),
+            rustfs_client.clone(),
+        );
         let auth = AuthService::new(config.clone(), surreal_client.clone(), redis_client.clone());
         Services { health, auth }
     }

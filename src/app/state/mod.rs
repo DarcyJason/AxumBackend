@@ -31,7 +31,12 @@ impl AppState {
         let redis_client = Arc::new(redis_client);
         let rustfs_client = Arc::new(rustfs_client);
         let resend = Arc::new(resend);
-        let services = Services::new(config.clone(), surreal_client.clone(), redis_client.clone());
+        let services = Services::new(
+            config.clone(),
+            surreal_client.clone(),
+            redis_client.clone(),
+            rustfs_client.clone(),
+        );
         AppState {
             config,
             surreal_client,

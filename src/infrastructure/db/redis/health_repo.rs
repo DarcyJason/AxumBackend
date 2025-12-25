@@ -14,7 +14,7 @@ pub trait RedisHealthRepository {
 #[async_trait]
 impl RedisHealthRepository for RedisClient {
     async fn health_check(&self) -> AppResult<bool> {
-        let mut conn = self.conn.clone();
+        let mut conn = self.redis.clone();
         let response = conn.ping().await.map_err(ExternalError::from)?;
         Ok(response == "PONG")
     }

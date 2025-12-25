@@ -84,7 +84,7 @@ pub async fn check_if_exists_system_owner(app_state: Arc<AppState>) -> AppResult
         "#;
     let mut res = app_state
         .surreal_client
-        .client
+        .surreal
         .query(sql)
         .bind(("name", name))
         .bind(("email", email))
