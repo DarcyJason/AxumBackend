@@ -1,12 +1,10 @@
-use crate::domain::{account::Account, card::Card, id::ID, note::Note, ssh::SSH};
+use serde::{Deserialize, Serialize};
 use surrealdb::sql::Thing;
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vault {
-    pub id: Thing,
     pub user_id: Thing,
-    pub account_projects: Option<Vec<Account>>,
-    pub card_projects: Option<Vec<Card>>,
-    pub id_projects: Option<Vec<ID>>,
-    pub note_projects: Option<Vec<Note>>,
-    pub ssh_projects: Option<Vec<SSH>>,
+    pub ciphers: Vec<Thing>,
+    pub folders: Vec<Thing>,
+    pub organizations: Vec<Thing>,
 }

@@ -1,19 +1,7 @@
-use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use surrealdb::sql::Thing;
 
-use crate::domain::{
-    folder::Folder,
-    project::{AdditionalField, ProjectOwner},
-};
-
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Note {
     pub id: Thing,
-    pub user_id: Thing,
-    pub project_name: String,
-    pub project_owner: Vec<ProjectOwner>,
-    pub folder: Option<Vec<Folder>>,
-    pub remarks: Option<String>,
-    pub additional_fields: Option<Vec<AdditionalField>>,
-    pub created_at: DateTime<Utc>,
-    pub updated_at: DateTime<Utc>,
 }

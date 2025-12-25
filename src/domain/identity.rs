@@ -1,11 +1,8 @@
-use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use surrealdb::sql::Thing;
 
-use crate::domain::{
-    folder::Folder,
-    project::{AdditionalField, ProjectOwner},
-};
-
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub enum Status {
     Husband,
     Wife,
@@ -15,12 +12,9 @@ pub enum Status {
     Others,
 }
 
-pub struct ID {
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Identity {
     pub id: Thing,
-    pub user_id: Thing,
-    pub project_name: String,
-    pub project_owner: Vec<ProjectOwner>,
-    pub folder: Option<Vec<Folder>>,
     pub status: Status,
     pub first_name: Option<String>,
     pub middle_name: Option<String>,
@@ -39,7 +33,4 @@ pub struct ID {
     pub province: Option<String>,
     pub post_code: Option<String>,
     pub country: Option<String>,
-    pub additional_fields: Option<Vec<AdditionalField>>,
-    pub created_at: DateTime<Utc>,
-    pub updated_at: DateTime<Utc>,
 }

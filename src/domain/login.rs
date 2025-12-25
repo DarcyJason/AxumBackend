@@ -2,8 +2,9 @@ use serde::{Deserialize, Serialize};
 use surrealdb::sql::Thing;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Folder {
+pub struct Login {
     pub id: Thing,
-    pub user_id: Thing,
-    pub name: String,
+    pub username: Option<String>,
+    pub password: Option<String>,
+    pub web_url: Option<String>,
 }

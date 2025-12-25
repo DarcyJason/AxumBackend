@@ -1,22 +1,10 @@
-use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use surrealdb::sql::Thing;
 
-use crate::domain::{
-    folder::Folder,
-    project::{AdditionalField, ProjectOwner},
-};
-
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SSH {
     pub id: Thing,
-    pub user_id: Thing,
-    pub project_name: String,
-    pub project_owner: Vec<ProjectOwner>,
-    pub folder: Option<Vec<Folder>>,
     pub secret_key: Option<String>,
     pub public_key: Option<String>,
     pub fingerprint: Option<String>,
-    pub remarks: Option<String>,
-    pub additional_fields: Option<Vec<AdditionalField>>,
-    pub created_at: DateTime<Utc>,
-    pub updated_at: DateTime<Utc>,
 }

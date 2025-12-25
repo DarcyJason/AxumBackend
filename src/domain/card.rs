@@ -1,13 +1,8 @@
+use serde::{Deserialize, Serialize};
 use surrealdb::sql::Thing;
 
-use chrono::{DateTime, Utc};
-
-use crate::domain::{
-    folder::Folder,
-    month::Month,
-    project::{AdditionalField, ProjectOwner},
-};
-
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub enum CardBrand {
     Visa,
     Mastercard,
@@ -21,20 +16,30 @@ pub enum CardBrand {
     Others,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub enum Month {
+    January,
+    Februray,
+    March,
+    April,
+    May,
+    June,
+    July,
+    August,
+    September,
+    October,
+    November,
+    December,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Card {
     pub id: Thing,
-    pub user_id: Thing,
-    pub project_name: String,
-    pub project_owner: Vec<ProjectOwner>,
-    pub folder: Option<Vec<Folder>>,
     pub owner_name: Option<String>,
     pub card_number: Option<String>,
     pub card_brand: Option<CardBrand>,
     pub expired_month: Option<Vec<Month>>,
     pub expired_year: Option<i32>,
     pub safe_code: Option<String>,
-    pub remarks: Option<String>,
-    pub additional_fields: Option<Vec<AdditionalField>>,
-    pub created_at: DateTime<Utc>,
-    pub updated_at: DateTime<Utc>,
 }
