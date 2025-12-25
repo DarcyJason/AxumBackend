@@ -1,5 +1,7 @@
 # Axum Backend
 
+<h1>English | <a href="./README_zh_CN.md">简体中文</a></h1>
+
 ## Features
 
 ## Preparations
@@ -8,7 +10,7 @@ To run this project, you will need:
 
 - [Rust](https://rust-lang.org/tools/install/) installed on your machine.
 - [Docker](https://www.docker.com/) installed on your machine.
-- [mise](https://mise.jdx.dev/getting-started.html) on your machine.
+- [mise](https://mise.jdx.dev/getting-started.html) installed on your machine.
 
 ## Installation
 
