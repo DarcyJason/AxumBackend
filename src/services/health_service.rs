@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
-use axum::{http::StatusCode, response::IntoResponse};
+use axum::{extract::OriginalUri, http::StatusCode, response::IntoResponse};
+use tracing::info;
 
 use crate::{
     app::{errors::other_error::OtherErrorKind, response::AppResponse, result::AppResult},
@@ -35,14 +36,20 @@ impl HealthService {
             rustfs_client,
         }
     }
-    pub async fn check_health_service(&self) -> AppResult<impl IntoResponse + use<>> {
-        Ok(AppResponse::<()>::ok(
-            StatusCode::OK.as_u16(),
-            "Healthy",
-            None,
-        ))
+    pub async fn check_health_service(
+        &self,
+        uri: OriginalUri,
+    ) -> AppResult<impl IntoResponse + use<>> {
+        info!("Start handling {}", uri.to_string());
+        let response = AppResponse::<()>::ok(StatusCode::OK.as_u16(), "Healthy", None);
+        info!("Finish handling {}", uri.to_string());
+        Ok(response)
     }
-    pub async fn check_db_ready_service(&self) -> AppResult<impl IntoResponse + use<>> {
+    pub async fn check_db_ready_service(
+        &self,
+        uri: OriginalUri,
+    ) -> AppResult<impl IntoResponse + use<>> {
+        info!("Start handling {}", uri.to_string());
         let (surreal_ok, redis_ok, rustfs_ok) = tokio::join!(
             async { self.surreal_client.health_check().await.is_ok() },
             async { self.redis_client.health_check().await.is_ok() },
@@ -63,10 +70,8 @@ impl HealthService {
                 OtherErrorKind::Error(format!("{} server error", failed.join(" & "))).into(),
             );
         }
-        Ok(AppResponse::<()>::ok(
-            StatusCode::OK.as_u16(),
-            "Ready",
-            None,
-        ))
+        let response = AppResponse::<()>::ok(StatusCode::OK.as_u16(), "Ready", None);
+        info!("Finish handling {}", uri.to_string());
+        Ok(response)
     }
 }
