@@ -19,7 +19,6 @@ use crate::{
 use axum::Router;
 use resend_rs::Resend;
 use tokio::net::TcpListener;
-use tracing::info;
 use tracing_appender::non_blocking::WorkerGuard;
 
 pub async fn run_startup_tasks() -> AppResult<(WorkerGuard, Router, TcpListener)> {
@@ -28,15 +27,15 @@ pub async fn run_startup_tasks() -> AppResult<(WorkerGuard, Router, TcpListener)
     color_logo(APPLOGO)?;
     let config = Arc::new(AppConfig::init()?);
     let port = config.backend_server_config.backend_port;
-    let surreal_client = SurrealClient::new(config.surreal_server_config.clone()).await?;
-    let redis_client = RedisClient::new(config.redis_server_config.clone()).await?;
-    let rustfs_client = RustFSClient::new(config.rustfs_server_config.clone()).await;
+    let surreal = SurrealClient::new(config.surreal_server_config.clone()).await?;
+    let redis = RedisClient::new(config.redis_server_config.clone()).await?;
+    let rustfs = RustFSClient::new(config.rustfs_server_config.clone()).await;
     let resend = Resend::new(&config.mail_server_config.resend_api_key.clone());
     let app_state = Arc::new(AppState::new(
         config.clone(),
-        surreal_client,
-        redis_client,
-        rustfs_client,
+        surreal,
+        redis,
+        rustfs,
         resend,
     ));
     check_if_exists_system_owner(app_state.clone()).await?;
@@ -45,7 +44,7 @@ pub async fn run_startup_tasks() -> AppResult<(WorkerGuard, Router, TcpListener)
     let listener = TcpListener::bind(&address)
         .await
         .map_err(ExternalError::from)?;
-    info!("✅ Axum server is running at http://localhost:{}", port);
+    tracing::info!("Axum server is running at http://localhost:{}", port);
     Ok((logger_guard, app_routers, listener))
 }
 
@@ -83,8 +82,8 @@ pub async fn check_if_exists_system_owner(app_state: Arc<AppState>) -> AppResult
         RETURN $result;
         "#;
     let mut res = app_state
-        .surreal_client
         .surreal
+        .client
         .query(sql)
         .bind(("name", name))
         .bind(("email", email))
@@ -94,9 +93,9 @@ pub async fn check_if_exists_system_owner(app_state: Arc<AppState>) -> AppResult
         .map_err(ExternalError::from)?;
     let system_owner: Option<User> = res.take(0).map_err(ExternalError::from)?;
     if system_owner.is_some() {
-        info!("✅ SystemOwner created successfully");
+        tracing::info!("SystemOwner created successfully");
     } else {
-        info!("✅ SystemOwner already exists");
+        tracing::info!("SystemOwner already exists");
     }
     Ok(())
 }

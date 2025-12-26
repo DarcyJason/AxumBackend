@@ -23,17 +23,17 @@ pub struct Services {
 impl Services {
     pub fn new(
         config: Arc<AppConfig>,
-        surreal_client: Arc<SurrealClient>,
-        redis_client: Arc<RedisClient>,
-        rustfs_client: Arc<RustFSClient>,
+        surreal: Arc<SurrealClient>,
+        redis: Arc<RedisClient>,
+        rustfs: Arc<RustFSClient>,
     ) -> Self {
         let health = HealthService::new(
             config.clone(),
-            surreal_client.clone(),
-            redis_client.clone(),
-            rustfs_client.clone(),
+            surreal.clone(),
+            redis.clone(),
+            rustfs.clone(),
         );
-        let auth = AuthService::new(config.clone(), surreal_client.clone(), redis_client.clone());
+        let auth = AuthService::new(config.clone(), surreal.clone(), redis.clone());
         Services { health, auth }
     }
 }

@@ -1,5 +1,4 @@
 use tokio::signal;
-use tracing::info;
 
 pub async fn run_shutdown_tasks() {
     let ctrl_c = async {
@@ -11,5 +10,5 @@ pub async fn run_shutdown_tasks() {
         _ = ctrl_c => {},
     }
     println!();
-    info!("✅ Signal received, starting graceful shutdown");
+    tracing::info!("Signal received, starting graceful shutdown");
 }

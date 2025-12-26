@@ -12,9 +12,9 @@ use crate::{
 
 pub struct AppState {
     pub config: Arc<AppConfig>,
-    pub surreal_client: Arc<SurrealClient>,
-    pub redis_client: Arc<RedisClient>,
-    pub rustfs_client: Arc<RustFSClient>,
+    pub surreal: Arc<SurrealClient>,
+    pub redis: Arc<RedisClient>,
+    pub rustfs: Arc<RustFSClient>,
     pub resend: Arc<Resend>,
     pub services: Services,
 }
@@ -22,26 +22,26 @@ pub struct AppState {
 impl AppState {
     pub fn new(
         config: Arc<AppConfig>,
-        surreal_client: SurrealClient,
-        redis_client: RedisClient,
-        rustfs_client: RustFSClient,
+        surreal: SurrealClient,
+        redis: RedisClient,
+        rustfs: RustFSClient,
         resend: Resend,
     ) -> Self {
-        let surreal_client = Arc::new(surreal_client);
-        let redis_client = Arc::new(redis_client);
-        let rustfs_client = Arc::new(rustfs_client);
+        let surreal = Arc::new(surreal);
+        let redis = Arc::new(redis);
+        let rustfs = Arc::new(rustfs);
         let resend = Arc::new(resend);
         let services = Services::new(
             config.clone(),
-            surreal_client.clone(),
-            redis_client.clone(),
-            rustfs_client.clone(),
+            surreal.clone(),
+            redis.clone(),
+            rustfs.clone(),
         );
         AppState {
             config,
-            surreal_client,
-            redis_client,
-            rustfs_client,
+            surreal,
+            redis,
+            rustfs,
             resend,
             services,
         }

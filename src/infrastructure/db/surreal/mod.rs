@@ -9,11 +9,12 @@ use crate::{
     infrastructure::config::surreal_server_config::SurrealServerConfig,
 };
 
+pub mod auth_repo;
 pub mod health_repo;
 
 #[derive(Debug, Clone)]
 pub struct SurrealClient {
-    pub surreal: Surreal<Client>,
+    pub client: Surreal<Client>,
 }
 
 impl SurrealClient {
@@ -31,6 +32,6 @@ impl SurrealClient {
             .use_db(surreal_server_config.surreal_database)
             .await
             .map_err(ExternalError::from)?;
-        Ok(SurrealClient { surreal: db })
+        Ok(SurrealClient { client: db })
     }
 }

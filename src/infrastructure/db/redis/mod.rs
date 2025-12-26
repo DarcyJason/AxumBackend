@@ -5,6 +5,7 @@ use crate::{
     infrastructure::config::redis_server_config::RedisServerConfig,
 };
 
+pub mod auth_repo;
 pub mod health_repo;
 
 #[derive(Debug, Clone)]

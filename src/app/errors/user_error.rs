@@ -7,12 +7,15 @@ use crate::app::errors::ErrorKind;
 pub enum UserErrorKind {
     #[error("Failed to create user")]
     UserCreatedFailed,
+    #[error("User already exists")]
+    UserAlreadyExists,
 }
 
 impl ErrorKind for UserErrorKind {
     fn status_code(&self) -> StatusCode {
         match self {
             Self::UserCreatedFailed => StatusCode::INTERNAL_SERVER_ERROR,
+            Self::UserAlreadyExists => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
     fn message(&self) -> String {

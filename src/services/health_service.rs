@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
-use axum::{extract::OriginalUri, http::StatusCode, response::IntoResponse};
-use tracing::info;
+use axum::{http::StatusCode, response::IntoResponse};
 
 use crate::{
     app::{errors::other_error::OtherErrorKind, response::AppResponse, result::AppResult},
@@ -17,43 +16,45 @@ use crate::{
 
 pub struct HealthService {
     pub config: Arc<AppConfig>,
-    pub surreal_client: Arc<SurrealClient>,
-    pub redis_client: Arc<RedisClient>,
-    pub rustfs_client: Arc<RustFSClient>,
+    pub surreal: Arc<SurrealClient>,
+    pub redis: Arc<RedisClient>,
+    pub rustfs: Arc<RustFSClient>,
 }
 
 impl HealthService {
     pub fn new(
         config: Arc<AppConfig>,
-        surreal_client: Arc<SurrealClient>,
-        redis_client: Arc<RedisClient>,
-        rustfs_client: Arc<RustFSClient>,
+        surreal: Arc<SurrealClient>,
+        redis: Arc<RedisClient>,
+        rustfs: Arc<RustFSClient>,
     ) -> Self {
         HealthService {
             config,
-            surreal_client,
-            redis_client,
-            rustfs_client,
+            surreal,
+            redis,
+            rustfs,
         }
     }
     pub async fn check_health_service(
         &self,
-        uri: OriginalUri,
+        uri: String,
+        addr: String,
     ) -> AppResult<impl IntoResponse + use<>> {
-        info!("Start handling {}", uri.to_string());
+        tracing::info!("Start handling {} for {}", uri, addr);
         let response = AppResponse::<()>::ok(StatusCode::OK.as_u16(), "Healthy", None);
-        info!("Finish handling {}", uri.to_string());
+        tracing::info!("Finish handling {} for {}", uri, addr);
         Ok(response)
     }
     pub async fn check_db_ready_service(
         &self,
-        uri: OriginalUri,
+        uri: String,
+        addr: String,
     ) -> AppResult<impl IntoResponse + use<>> {
-        info!("Start handling {}", uri.to_string());
+        tracing::info!("Start handling {} for {}", uri, addr);
         let (surreal_ok, redis_ok, rustfs_ok) = tokio::join!(
-            async { self.surreal_client.health_check().await.is_ok() },
-            async { self.redis_client.health_check().await.is_ok() },
-            async { self.rustfs_client.health_check().await.is_ok() }
+            async { self.surreal.health_check().await.is_ok() },
+            async { self.redis.health_check().await.is_ok() },
+            async { self.rustfs.health_check().await.is_ok() }
         );
         let mut failed = Vec::new();
         if !surreal_ok {
@@ -71,7 +72,7 @@ impl HealthService {
             );
         }
         let response = AppResponse::<()>::ok(StatusCode::OK.as_u16(), "Ready", None);
-        info!("Finish handling {}", uri.to_string());
+        tracing::info!("Finish handling {} for {}", uri, addr);
         Ok(response)
     }
 }
