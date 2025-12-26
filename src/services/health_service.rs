@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use axum::{http::StatusCode, response::IntoResponse};
+use axum::response::IntoResponse;
 
 use crate::{
     app::{errors::other_error::OtherErrorKind, response::AppResponse, result::AppResult},
@@ -41,7 +41,7 @@ impl HealthService {
         addr: String,
     ) -> AppResult<impl IntoResponse + use<>> {
         tracing::info!("Start handling {} for {}", uri, addr);
-        let response = AppResponse::<()>::ok(StatusCode::OK.as_u16(), "Healthy", None);
+        let response = AppResponse::<()>::ok(200, "Healthy", None);
         tracing::info!("Finish handling {} for {}", uri, addr);
         Ok(response)
     }
@@ -71,7 +71,7 @@ impl HealthService {
                 OtherErrorKind::Error(format!("{} server error", failed.join(" & "))).into(),
             );
         }
-        let response = AppResponse::<()>::ok(StatusCode::OK.as_u16(), "Ready", None);
+        let response = AppResponse::<()>::ok(200, "Ready", None);
         tracing::info!("Finish handling {} for {}", uri, addr);
         Ok(response)
     }
