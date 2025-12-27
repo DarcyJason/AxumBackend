@@ -5,7 +5,9 @@ use crate::{
         config::AppConfig,
         db::{redis::RedisClient, rustfs::RustFSClient, surreal::SurrealClient},
     },
-    services::{auth_service::AuthService, health_service::HealthService},
+    services::{
+        auth_service::AuthService, health_service::HealthService, user_service::UserService,
+    },
 };
 
 pub mod admin_service;
@@ -18,6 +20,7 @@ pub mod vault_service;
 pub struct Services {
     pub health: HealthService,
     pub auth: AuthService,
+    pub user: UserService,
 }
 
 impl Services {
@@ -34,6 +37,7 @@ impl Services {
             rustfs.clone(),
         );
         let auth = AuthService::new(config.clone(), surreal.clone(), redis.clone());
-        Services { health, auth }
+        let user = UserService::new(config.clone(), surreal.clone(), redis.clone());
+        Services { health, auth, user }
     }
 }

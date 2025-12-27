@@ -12,6 +12,7 @@ use crate::{
     infrastructure::{
         config::AppConfig,
         db::{redis::RedisClient, rustfs::RustFSClient, surreal::SurrealClient},
+        tasks::cleanup::unverified_user_cleanup,
     },
     middleware::logger::logger,
     utils::{color_logo::color_logo, password::hash_password},
@@ -39,6 +40,7 @@ pub async fn run_startup_tasks() -> AppResult<(WorkerGuard, Router, TcpListener)
         resend,
     ));
     check_if_exists_system_owner(app_state.clone()).await?;
+    unverified_user_cleanup::start(app_state.clone()).await;
     let app_routers = app_routers(app_state);
     let address = SocketAddr::from((Ipv4Addr::UNSPECIFIED, port));
     let listener = TcpListener::bind(&address)

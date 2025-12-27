@@ -11,6 +11,7 @@ use crate::{
 
 pub mod auth_repo;
 pub mod health_repo;
+pub mod user_repo;
 
 #[derive(Debug, Clone)]
 pub struct SurrealClient {
