@@ -1,6 +1,6 @@
-# Axum Backend
+<h1 style="text-align: center">Axum Backend</h1>
 
-<h1>English | <a href="./README_zh_CN.md">简体中文</a></h1>
+<h2 style="text-align: center">English | <a href="./README_zh_CN.md">简体中文</a></h2>
 
 ## Features
 
@@ -42,25 +42,36 @@ docker run --name redis \
   -d redis:8.4.0
 ```
 
-### 4. Install surrealdb-migrations by mise
+### 4. Start RustFS server on docker
+
+```shell
+docker run -d \
+  --name rustfs \
+  -p 9000:9000 \
+  -p 9001:9001 \
+  -v ~/rustfs/data:/data \
+  rustfs/rustfs:1.0.0-alpha.70
+```
+
+### 5. Install surrealdb-migrations by mise
 
 ```shell
 mise run prepare
 ```
 
-### 5. Install tools in mise.toml by mise
+### 6. Install tools in mise.toml by mise
 
 ```shell
 mise install
 ```
 
-### 6. Apply migrations to your SurrealDB
+### 7. Apply migrations to your SurrealDB
 
 ```shell
 mise run migration
 ```
 
-### 7. Configure .env
+### 8. Configure .env
 
 ```shell
 cp .env.example .env
@@ -73,7 +84,7 @@ cp .env.example .env
 - replace FROM_EMAIL to your email
 - replace RESEND_API_KEY to your [resend api key](https://resend.com/api-keys)
 
-### 8. Start the server
+### 9. Start the server
 
 ```shell
 mise run backend
