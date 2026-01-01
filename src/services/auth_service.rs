@@ -40,14 +40,14 @@ impl AuthService {
     pub async fn register_service(
         &self,
         uri: String,
-        addr: String,
+        ip: String,
         payload: RegisterRequest,
     ) -> AppResult<impl IntoResponse + use<>> {
-        tracing::info!("Start handling {} for {}", uri, addr);
+        tracing::info!("Start handling {} for {}", uri, ip);
         validate_register_payload(&payload)?;
         if let Some(user) = self.surreal.find_user_by_email(&payload.email).await? {
             tracing::error!("User {} already exists", user.name);
-            tracing::info!("Finish handling {} for {}", uri, addr);
+            tracing::info!("Finish handling {} for {}", uri, ip);
             return Err(UserErrorKind::UserAlreadyExists.into());
         }
         let password_hashed = hash_password(payload.password)?;
@@ -57,20 +57,20 @@ impl AuthService {
             .await
         {
             tracing::error!("Create user by {} failed: {}", payload.email, e);
-            tracing::info!("Finish handling {} for {}", uri, addr);
+            tracing::info!("Finish handling {} for {}", uri, ip);
             return Err(UserErrorKind::UserCreatedFailed.into());
         }
         let response = AppResponse::<()>::ok(200, "Create user successfully", None);
-        tracing::info!("Finish handling {} for {}", uri, addr);
+        tracing::info!("Finish handling {} for {}", uri, ip);
         Ok(response)
     }
     pub async fn login_service(
         &self,
         uri: String,
-        addr: String,
+        ip: String,
         payload: LoginRequest,
     ) -> AppResult<impl IntoResponse + use<>> {
-        tracing::info!("Start handling {} for {}", uri, addr);
+        tracing::info!("Start handling {} for {}", uri, ip);
         validate_login_payload(&payload)?;
         Ok("ok")
     }
